@@ -7,3 +7,15 @@
     height: 550px;
     width:100%;
 }
+
+#aceptar{
+    margin-left:20px;
+    width:120px;
+    height:60px;
+    font-size: 22px;
+}
+
+#puntuacion{
+    font-size:30px;
+    text-align: center;
+}
