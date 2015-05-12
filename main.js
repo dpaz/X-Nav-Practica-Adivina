@@ -17,6 +17,7 @@ $(document).ready(function(){
 
     //Variable de puntuacion del juego
     var puntuacion = 0;
+    var nslide = 0;
     var vpunt = $("#puntuacion");
     vpunt.html("La puntuacion es de: "+puntuacion)
 
@@ -63,8 +64,12 @@ $(document).ready(function(){
         calculapuntuacion()
     })
 
+    $("#carousel").on("slid.bs.carousel",function(){
+        nslide++;
+    })
+
     function calculapuntuacion(){
-        puntuacion += Math.floor(10000/dist);
+        puntuacion += Math.floor(10000/(dist*nslide));
         vpunt.html("La puntuacion es de: "+puntuacion)
     }
 });
