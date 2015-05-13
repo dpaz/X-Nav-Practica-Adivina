@@ -1,0 +1,83 @@
+{
+	"type": "FeatureCollection",
+	"features": 
+	[
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [40.4167754,-3.7037901999999576]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Madrid"
+			},
+			"id": 1
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [ 51.5073509,-0.12775829999998223]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Londres"
+			},
+			"id": 2
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [41.9027835,12.496365500000024 ]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Roma"
+			},
+			"id": 3
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [35.6894875,139.69170639999993 ]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Tokyo"
+			},
+			"id": 4
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [ 41.00527,28.976959999999963]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Estambul"
+			},
+			"id": 5
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [-34.6037232,-58.38159310000003 ]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Buenos Aires"
+			},
+			"id": 6
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [ 24.478056,54.368611]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Abu Dabi"
+			},
+			"id": 7
+        }
+	]
+}
