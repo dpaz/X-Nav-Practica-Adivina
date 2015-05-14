@@ -49,7 +49,7 @@
                   </li>
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Juegos <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
+                    <ul id="dropdownJuegos" class="dropdown-menu" role="menu">
                       <li><a class="game" href="#">Capitales</a></li>
                       <li class="divider"></li>
                       <li><a class="game" href="#">Monumentos</a></li>
@@ -58,10 +58,11 @@
                     </ul>
                   </li>
                   <li id="comenzar" class="active"><a href="#">Comenzar<span class="sr-only"></span></a></li>
-                  <li><a href="#">Salir</a></li>
+                  <li id="salir"><a href="#">Salir</a></li>
                   
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                  <p id="dificultadActual" class="navbar-text">Dificultad Normal</p>
                   <p id="juegoActual" class="navbar-text">No hay ningun juego Seleccionado</p>
                 </ul>
               </div><!-- /.navbar-collapse -->
@@ -88,8 +89,12 @@
          
         </div>
         <div class="col-md-5">
-            <div id="containerCarrousel">
-                <img id="car0" src="img/galaxia1.jpg" alt="La imagen no ha podido ser mostrada"  width="100%" height="250px">
+            <div id="carousel" class="carousel slide" data-ride="carousel" >
+              <div class="carousel-inner" role="listbox">
+                <div class="item active">'
+                    <img id="car0" src="img/galaxia1.jpg" alt="La imagen no ha podido ser mostrada"  width="100%" height="300px">
+                </div>
+              </div>
             </div>  
         </div>
         <div class="col-md-2">

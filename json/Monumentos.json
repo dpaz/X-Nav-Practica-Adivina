@@ -1,0 +1,83 @@
+{
+	"type": "FeatureCollection",
+	"features": 
+	[
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [37.971528, 23.726667]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Partenon"
+			},
+			"id": 1
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [ 51.178844,-1.826189]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Stonehenge"
+			},
+			"id": 2
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [40.689167,-74.044444]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Statue of Liberty"
+			},
+			"id": 3
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [48.858333,2.294167]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Torre Eiffel"
+			},
+			"id": 4
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [ 41.403611, 2.174444]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Sagrada Familia"
+			},
+			"id": 5
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [35.658611,139.745556]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Tokyo Tower"
+			},
+			"id": 6
+        },
+        {
+			"geometry": {
+	                    "type": "Point",
+	                    "coordinates": [-22.951667,-43.210278]
+			},
+			"type": "Feature",
+			"properties": {
+	                    "Name": "Cristo Redentor"
+			},
+			"id": 7
+        }
+	]
+}
