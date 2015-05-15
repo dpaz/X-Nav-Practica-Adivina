@@ -31,6 +31,7 @@ $(document).ready(function(){
 
     //Juego actual
     var juego = {nombres : [], coord : []}
+    var game;
 
     //Inicializacion puntuacion
     var vpunt = $("#puntuacion");
@@ -39,14 +40,25 @@ $(document).ready(function(){
 
     var carousel = $(".carousel");
 
+    var nestados = 0;
+    
+
+/*
+
     juegos();
-
-
     function juegos(){
 
+         <li><a class="game" href="#">Capitales</a></li>
+                      <li class="divider"></li>
+                      <li><a class="game" href="#">Monumentos</a></li>
+                      <li class="divider"></li>
+                      <li><a class="game" href="#">Ciudades</a></li>
+
+        
+        $("dropdownJuegos").append(html);
     }
 
-
+*/
 
 
     //actualiza el indice y pide la siguiente imagen de flikr para el carrousel
@@ -63,12 +75,30 @@ $(document).ready(function(){
                 html+='<img id="car0" src="img/galaxia1.jpg" alt="La imagen no ha podido ser mostrada"  width="100%" height="300px">'
             html+='</div>'
             $(".carousel-inner").append(html);
+            
+            addhistoria();
+            
         }
     }
+
+    //Añade al historial la partida y guarda un estado
+    function addhistoria(){
+
+        data={fecha: new Date(),nombre: game,punt:puntuacion}
+
+        history.pushState(data,null,location.href+game);
+        html= '<a id=his'+nestados+' href="#" class="list-group-item his">'+game+' '+puntuacion+' </a>'
+        $("#historial").append(html);
+        nestados++;
+    }
+
 
     //Llama a el feed de flickr para una tag dada devolviendo un JSON
     function fotosflikr(tag){
         console.log(tag);
+
+
+
         $.getJSON("https://api.flickr.com/services/feeds/photos_public.gne?&tags="+tag+"&tagmode=any&format=json&jsoncallback=?",
             function(data){
                 data = data.items.splice(0,5);
@@ -100,6 +130,7 @@ $(document).ready(function(){
 
     //Calcula la distancia en km desde el marker a la poicion correcta
     $("#aceptar").click(function(){
+        
         dist = coordsAcierto.distanceTo(marker.getLatLng())/1000
         console.log(dist);
 
@@ -129,22 +160,7 @@ $(document).ready(function(){
 
 
     //Cambiar dificultad del juego
-    $(".dific").click(function(){
-       
-        dif = $(this).html()
-        switch(dif){
-            case "Facil":
-                dificultad = 7000;
-                break;
-            case "Normal":
-                dificultad = 5000;
-                break;
-            case "Dificil":
-                dificultad = 3000;
-                break;
-        }  
-        $("#dificultadActual").html("Dificultad "+dif);
-    })
+    
 
     //Comienza el juego seleccionado
     $("#comenzar").click(function(){
@@ -175,8 +191,11 @@ $(document).ready(function(){
     })
     
 
+
     //sale del juego actual y vuelve a la pantalla incial
     $("#salir").click(function(){
+        
+        history.go(-1);
         index = 0;
         coordsAcierto = L.latLng(0,0);
         puntuacion = 0;
@@ -187,5 +206,10 @@ $(document).ready(function(){
         $(".carousel-inner").append(html);
     })
     
+
+    window.addEventListener('popstate', function(event) {
+        //replaceHistorial()
+        console.log(event.state);
+    });
 
 });
