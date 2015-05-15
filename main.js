@@ -31,7 +31,8 @@ $(document).ready(function(){
 
     //Juego actual
     var juego = {nombres : [], coord : []}
-    var game;
+    var lastgame;
+    var game ="";
 
     //Inicializacion puntuacion
     var vpunt = $("#puntuacion");
@@ -84,10 +85,19 @@ $(document).ready(function(){
     //Añade al historial la partida y guarda un estado
     function addhistoria(){
 
-        data={fecha: new Date(),nombre: game,punt:puntuacion}
+        
 
-        history.pushState(data,null,location.href+game);
-        html= '<a id=his'+nestados+' href="#" class="list-group-item his">'+game+' '+puntuacion+' </a>'
+        data={fecha: new Date(),
+              nombre: lastgame,
+              punt:puntuacion,
+              juego: juego,
+              index: index,
+              coordsAcierto: coordsAcierto
+        }
+
+        history.replaceState(data,null,location.href+lastgame)
+        history.pushState(null,null,location.href+game);
+        html= '<a id=his'+nestados+' href="#" class="list-group-item his">'+data.nombre+' '+data.punt+' '+data.fecha+'</a>'
         $("#historial").append(html);
         nestados++;
     }
@@ -164,6 +174,12 @@ $(document).ready(function(){
 
     //Comienza el juego seleccionado
     $("#comenzar").click(function(){
+        if(nestados==0){
+            history.pushState(null,null,location.href+game);
+            nestados++;
+        }else{
+           addhistoria()
+        }
         index =0;
         coordsAcierto = L.latLng(juego.coord[index][0],juego.coord[index][1]);
         fotosflikr(juego.nombres[index]);
@@ -174,8 +190,10 @@ $(document).ready(function(){
 
     //Seleccionar juego
     $(".game").click(function(){
-       
+        lastgame = game
         game = $(this).html();
+        juego.nombres = [];
+        juego.coord = [];
 
         $.getJSON("json/"+game+".json",function(data){
             data.features.forEach(function(el,i){
@@ -187,7 +205,7 @@ $(document).ready(function(){
         })
         
         $("#juegoActual").html(game)
-
+       
     })
     
 
