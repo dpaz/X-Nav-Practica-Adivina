@@ -1,14 +1,21 @@
 
-
-
-
-
 //Dificultad global del juego no se puede cambiar en mitad del juego por defecto en normal
 var dificultad = 4000;
 
 //Variable de puntuacion del juego
 var puntuacion = 0;
 var nslide = 1;
+var nestados = 0;
+var estadoActual = 0;
+
+function volver(id){
+    
+
+    ngo = id - estadoActual;
+    console.log(ngo);
+    estadoActual = ngo;
+    history.go(ngo);
+}
 
 $(document).ready(function(){
 
@@ -41,23 +48,17 @@ $(document).ready(function(){
 
     var carousel = $(".carousel");
 
-    var nestados = 0;
+    
     
 
 /*
 
-    juegos();
-    function juegos(){
-
-         <li><a class="game" href="#">Capitales</a></li>
-                      <li class="divider"></li>
-                      <li><a class="game" href="#">Monumentos</a></li>
-                      <li class="divider"></li>
-                      <li><a class="game" href="#">Ciudades</a></li>
-
-        
-        $("dropdownJuegos").append(html);
-    }
+    if(nestados==0){
+            history.pushState(null,null,location.href+game);
+            nestados++;
+        }else{
+           addhistoria()
+        }
 
 */
 
@@ -88,17 +89,18 @@ $(document).ready(function(){
         
 
         data={fecha: new Date(),
-              nombre: lastgame,
+              nombre: game,
               punt:puntuacion,
               juego: juego,
-              index: index,
               coordsAcierto: coordsAcierto
         }
 
-        history.replaceState(data,null,location.href+lastgame)
-        history.pushState(null,null,location.href+game);
-        html= '<a id=his'+nestados+' href="#" class="list-group-item his">'+data.nombre+' '+data.punt+' '+data.fecha+'</a>'
+       
+        history.pushState(data,null,location.href+game);
+        
+        html= '<a id='+data.nombre+' href="javascript:volver('+estadoActual+')" class="list-group-item his">'+data.nombre+' '+data.punt+' Fecha:'+data.fecha+'</a>'
         $("#historial").append(html);
+        estadoActual++;
         nestados++;
     }
 
@@ -106,8 +108,6 @@ $(document).ready(function(){
     //Llama a el feed de flickr para una tag dada devolviendo un JSON
     function fotosflikr(tag){
         console.log(tag);
-
-
 
         $.getJSON("https://api.flickr.com/services/feeds/photos_public.gne?&tags="+tag+"&tagmode=any&format=json&jsoncallback=?",
             function(data){
@@ -174,17 +174,13 @@ $(document).ready(function(){
 
     //Comienza el juego seleccionado
     $("#comenzar").click(function(){
-        if(nestados==0){
-            history.pushState(null,null,location.href+game);
-            nestados++;
-        }else{
-           addhistoria()
-        }
+        
         index =0;
         coordsAcierto = L.latLng(juego.coord[index][0],juego.coord[index][1]);
         fotosflikr(juego.nombres[index]);
         index++;
         puntuacion = 0;
+        vpunt.html("La puntuacion es de: "+puntuacion)
     });
 
 
@@ -213,7 +209,7 @@ $(document).ready(function(){
     //sale del juego actual y vuelve a la pantalla incial
     $("#salir").click(function(){
         
-        history.go(-1);
+        
         index = 0;
         coordsAcierto = L.latLng(0,0);
         puntuacion = 0;
@@ -222,12 +218,29 @@ $(document).ready(function(){
             html+='<img id="car0" src="img/galaxia1.jpg" alt="La imagen no ha podido ser mostrada"  width="100%" height="300px">'
         html+='</div>'
         $(".carousel-inner").append(html);
-    })
+    });
     
+    function replaceHistorial(data){
+        if(data!=null){
+            game = data.nombre;
+            juego = data.juego;
+            coordsAcierto = data.coordsAcierto;
+
+
+            $("#juegoActual").html(game)
+
+            index =0;
+            fotosflikr(juego.nombres[index]);
+            index++;
+
+        }
+    }    
+
+
 
     window.addEventListener('popstate', function(event) {
-        //replaceHistorial()
-        console.log(event.state);
+
+        replaceHistorial(event.state);
     });
 
 });
