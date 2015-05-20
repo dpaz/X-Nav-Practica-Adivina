@@ -8,14 +8,73 @@ var nslide = 1;
 var nestados = 0;
 var estadoActual = 0;
 
+var juego = {nombres : [], coord : []}
+var game ="";
+var coordsAcierto;
+
 function volver(id){
     
-
+    
     ngo = id - estadoActual;
-    console.log(ngo);
-    estadoActual = ngo;
-    history.go(ngo);
+    console.log("go to:"+ngo)
+    if(ngo==0){
+       
+        data={fecha: new Date(),
+              nombre: game,
+              punt:puntuacion,
+              juego: juego,
+              coordsAcierto: coordsAcierto
+        }
+        replaceHistorial(data);
+    }
+    else{
+        history.go(ngo);
+    }
+
+   
 }
+function replaceHistorial(data){
+    if(data!=null){
+        game = data.nombre;
+        juego = data.juego;
+         
+        puntuacion = 0;
+
+        $("#juegoActual").html(game)
+
+        index =0;
+        fotosflikr(juego.nombres[index]);
+        coordsAcierto = L.latLng(juego.coord[index][0],juego.coord[index][1]);
+        index++;
+        $("#puntuacion").html("La puntuacion es de: "+puntuacion)
+    }
+}  
+
+//Llama a el feed de flickr para una tag dada devolviendo un JSON
+function fotosflikr(tag){
+    console.log(tag);
+
+    $.getJSON("https://api.flickr.com/services/feeds/photos_public.gne?&tags="+tag+"&tagmode=any&format=json&jsoncallback=?",
+        function(data){
+            data = data.items.splice(0,5);
+            $(".carousel-inner").empty();
+
+            for(i=0; i<5 ; i++){
+                var html="";
+                if(i==0){
+                    html='<div class="item active">'
+                        html+='<img id="car0" src="'+data[i].media.m+'" alt="La imagen no ha podido ser mostrada"  width="100%" height="300px">'
+                    html+='</div>'
+                }else{
+                    html='<div class="item">'
+                        html+='<img id="car'+i+'" src="'+data[i].media.m+'" alt="La imagen no ha podido ser mostrada"  width="100%" height="300px">'
+                    html+='</div>'
+                }
+                $(".carousel-inner").append(html);
+            }  
+    });
+}
+
 
 $(document).ready(function(){
 
@@ -30,16 +89,14 @@ $(document).ready(function(){
     marker.addTo(map);
 
     //Coordenadas del lugar donde se situan las fotos y distancia entre los dos lugares
-    var coordsAcierto = L.latLng(0,0);
+    coordsAcierto = L.latLng(0,0);
     var dist = 0;
 
     //Numero de lugar en el juego
     var index = 0;;
 
     //Juego actual
-    var juego = {nombres : [], coord : []}
-    var lastgame;
-    var game ="";
+ 
 
     //Inicializacion puntuacion
     var vpunt = $("#puntuacion");
@@ -51,22 +108,13 @@ $(document).ready(function(){
     
     
 
-/*
 
-    if(nestados==0){
-            history.pushState(null,null,location.href+game);
-            nestados++;
-        }else{
-           addhistoria()
-        }
-
-*/
 
 
     //actualiza el indice y pide la siguiente imagen de flikr para el carrousel
     function next(){
         if(index<juego.nombres.length){
-            coordsAcierto = L.latLng(juego.coord[index][0],juego.coord[index][1]);
+            
             fotosflikr(juego.nombres[index]);
             index++;
             nslide=1;
@@ -94,42 +142,23 @@ $(document).ready(function(){
               juego: juego,
               coordsAcierto: coordsAcierto
         }
-
+        if(estadoActual!= nestados){
+            history.go(nestados-estadoActual)
+            estadoActual = nestados;
+        }
        
         history.pushState(data,null,location.href+game);
-        
-        html= '<a id='+data.nombre+' href="javascript:volver('+estadoActual+')" class="list-group-item his">'+data.nombre+' '+data.punt+' Fecha:'+data.fecha+'</a>'
-        $("#historial").append(html);
         estadoActual++;
         nestados++;
+        html= '<a id='+data.nombre+' href="javascript:volver('+nestados+')" class="list-group-item his">'+data.nombre+' '+data.punt+' Fecha:'+data.fecha+'</a>'
+        $("#historial").append(html);
+        
+
+        
     }
 
 
-    //Llama a el feed de flickr para una tag dada devolviendo un JSON
-    function fotosflikr(tag){
-        console.log(tag);
-
-        $.getJSON("https://api.flickr.com/services/feeds/photos_public.gne?&tags="+tag+"&tagmode=any&format=json&jsoncallback=?",
-            function(data){
-                data = data.items.splice(0,5);
-                $(".carousel-inner").empty();
-
-                for(i=0; i<5 ; i++){
-                    var html="";
-                    if(i==0){
-                        html='<div class="item active">'
-                            html+='<img id="car0" src="'+data[i].media.m+'" alt="La imagen no ha podido ser mostrada"  width="100%" height="300px">'
-                        html+='</div>'
-                    }else{
-                        html='<div class="item">'
-                            html+='<img id="car'+i+'" src="'+data[i].media.m+'" alt="La imagen no ha podido ser mostrada"  width="100%" height="300px">'
-                        html+='</div>'
-                    }
-                    $(".carousel-inner").append(html);
-
-                }  
-        });
-    }
+    
 
 
     //Coloca un marker en la posicion donde pulsemos
@@ -142,7 +171,7 @@ $(document).ready(function(){
     $("#aceptar").click(function(){
         
         dist = coordsAcierto.distanceTo(marker.getLatLng())/1000
-        console.log(dist);
+        
 
         calculapuntuacion();
         next();
@@ -220,21 +249,7 @@ $(document).ready(function(){
         $(".carousel-inner").append(html);
     });
     
-    function replaceHistorial(data){
-        if(data!=null){
-            game = data.nombre;
-            juego = data.juego;
-            coordsAcierto = data.coordsAcierto;
-
-
-            $("#juegoActual").html(game)
-
-            index =0;
-            fotosflikr(juego.nombres[index]);
-            index++;
-
-        }
-    }    
+      
 
 
 
