@@ -1,6 +1,6 @@
 
 //Dificultad global del juego no se puede cambiar en mitad del juego por defecto en normal
-var dificultad = 4000;
+var dificultad = 3000;
 
 //Variable de puntuacion del juego
 var puntuacion = 0;
@@ -77,6 +77,7 @@ function fotosflikr(tag){
                     html+='</div>'
                 }
                 $(".carousel-inner").append(html);
+                $("#carousel").carousel();
             }  
     });
 }
@@ -221,10 +222,10 @@ $(document).ready(function(){
                 dificultad = 6000;    
                 break;    
             case "Normal":    
-                dificultad = 4000;    
+                dificultad = 3000;    
                 break;    
             case "Dificil":   
-                dificultad = 2000;    
+                dificultad = 1500;    
                 break;    
         }     
         $("#dificultadActual").html("Dificultad "+dif);   
