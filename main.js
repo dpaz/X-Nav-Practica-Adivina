@@ -113,8 +113,9 @@ $(document).ready(function(){
 
     //actualiza el indice y pide la siguiente imagen de flikr para el carrousel
     function next(){
+        index++;
         if(index<juego.nombres.length){
-            index++;
+            
             fotosflikr(juego.nombres[index]);
             coordsAcierto = L.latLng(juego.coord[index][0],juego.coord[index][1]);
 
