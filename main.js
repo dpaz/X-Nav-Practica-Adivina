@@ -117,6 +117,8 @@ $(document).ready(function(){
             
             fotosflikr(juego.nombres[index]);
             index++;
+            coordsAcierto = L.latLng(juego.coord[index][0],juego.coord[index][1]);
+
             nslide=1;
         }else{
             alert("Juego terminado");
@@ -163,7 +165,8 @@ $(document).ready(function(){
 
     //Coloca un marker en la posicion donde pulsemos
     map.on('click', function(pos) {
-        marker.setLatLng(pos.latlng); 
+        marker.setLatLng(pos.latlng);
+
         marker.setOpacity(1);
     });
 
@@ -171,7 +174,8 @@ $(document).ready(function(){
     $("#aceptar").click(function(){
         
         dist = coordsAcierto.distanceTo(marker.getLatLng())/1000
-        
+       
+        console.log(coordsAcierto);
 
         calculapuntuacion();
         next();
@@ -188,7 +192,8 @@ $(document).ready(function(){
 
     //Puntuacion calculada con la distancia y el numero de diapositivas
     function calculapuntuacion(){
-
+        console.log(nslide);
+        
         puntuacion += Math.floor(10000/(dist*nslide));
         vpunt.html("La puntuacion es de: "+puntuacion)
     }
@@ -224,7 +229,7 @@ $(document).ready(function(){
         index =0;
         coordsAcierto = L.latLng(juego.coord[index][0],juego.coord[index][1]);
         fotosflikr(juego.nombres[index]);
-        index++;
+        
         puntuacion = 0;
         vpunt.html("La puntuacion es de: "+puntuacion)
     });
