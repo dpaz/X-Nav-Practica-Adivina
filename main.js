@@ -28,12 +28,15 @@ function volver(id){
         replaceHistorial(data);
     }
     else{
+
+        estadoActual = id;
         history.go(ngo);
     }
 
    
 }
 function replaceHistorial(data){
+    console.log(data)
     if(data!=null){
         game = data.nombre;
         juego = data.juego;
@@ -47,6 +50,9 @@ function replaceHistorial(data){
         coordsAcierto = L.latLng(juego.coord[index][0],juego.coord[index][1]);
         index++;
         $("#puntuacion").html("La puntuacion es de: "+puntuacion)
+    }else{
+        estadoActual++;
+        nestados++;
     }
 }  
 
@@ -150,6 +156,8 @@ $(document).ready(function(){
         }
        
         history.pushState(data,null,location.href+game);
+        console.log("Longitud "+history.length)
+
         estadoActual++;
         nestados++;
         html= '<a id='+data.nombre+' href="javascript:volver('+nestados+')" class="list-group-item his">'+data.nombre+' '+data.punt+' Fecha:'+data.fecha+'</a>'
@@ -175,7 +183,7 @@ $(document).ready(function(){
         
         dist = coordsAcierto.distanceTo(marker.getLatLng())/1000
        
-        console.log(coordsAcierto);
+        
 
         calculapuntuacion();
         next();
