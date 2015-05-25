@@ -199,6 +199,23 @@ $(document).ready(function(){
 
 
     //Cambiar dificultad del juego
+    $(".dific").click(function(){   
+          
+        dif = $(this).html()  
+        switch(dif){  
+            
+            case "Facil":     
+                dificultad = 6000;    
+                break;    
+            case "Normal":    
+                dificultad = 4000;    
+                break;    
+            case "Dificil":   
+                dificultad = 2000;    
+                break;    
+        }     
+        $("#dificultadActual").html("Dificultad "+dif);   
+    })
     
 
     //Comienza el juego seleccionado
